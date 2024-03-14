@@ -10,17 +10,18 @@ var logger = require('morgan');
 var Router = require('./routes/router');
 const User = require('./models/user');
 const bcrypt = require('bcryptjs');
+const dotenv = require('dotenv').config();
 
 var app = express();
 
 mongoose.set("strictQuery", false);
-const MongoDB = "mongodb+srv://logantackettwork:18PGRqnnIWbIieZJ@cluster0.9bxcfni.mongodb.net/Private-Chat?retryWrites=true&w=majority&appName=Cluster0";
+const MongoDB = process.env.MONGO_URL;
 main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(MongoDB);
 }
 
-app.use(session({ secret: "bananimals", resave: false, saveUninitialized: true }));
+app.use(session({ secret: process.env.SECRET_KEY, resave: false, saveUninitialized: true }));
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
