@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <%if (user) {%>
+      <p>Welcome back <%= user.username %></p>
+      <a href="/log-out">LOG OUT</a>
+      <a href="/message">CREATE POST</a>
+      <h1>Messages (ALL):</h1>
+      <%if (messages.length > 0) {%>
+        <%if (user.admin) {%>
+          <ul>
+            <%for (let message of messages) {%>
+              <li>
+                <div id="msg-container">
+                  <form action="<%= `/delete/${message.id}` %>" method="POST">
+                    <button type="submit">DELETE</button>
+                  </form>
+                  <h2><%=message.username%></h2>
+                  <p><%=message.body%></p>
+                </div>
+              </li>
+            <%}%>
+          </ul>
+        <%}else{%>
+          <ul>
+            <%for (let message of messages) {%>
+              <li>
+                <div id="msg-container">
+                  <h2><%=message.username%></h2>
+                  <p><%=message.body%></p>
+                </div>
+              </li>
+            <%}%>
+          </ul>
+        <%}%>
+      <%}%>
+    <%} else {%>
+      <p>Welcome to <%= title %></p>
+      <h1>please log in</h1>
+      <form action="/log-in" method="POST">
+        <label for="username">Username</label>
+        <input name="username" placeholder="username" type="text" />
+        <label for="password">Password</label>
+        <input name="password" type="password" />
+        <button>Log In</button>
+      </form>
+      <a href="/register">SIGN UP</a>
+      <a href="/message">CREATE POST</a>
+      <h1>Messages (PUBLIC ONLY):</h1>
+      <%if (messages.length > 0) {%>
+        <ul>
+          <%for (let message of messages) {%>
+            <li>
+              <div id="msg-container">
+                <h2><%=message.username%></h2>
+                <p><%=message.body%></p>
+              </div>
+            </li>
+          <%}%>
+        </ul>
+      <%}%>
+    <%}%>
+  </body>
+</html>

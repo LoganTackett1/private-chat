@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <h1>Create Post:</h1>
+  <form action="/message" method="POST">
+    <label for="body">Post Body:</label>
+    <textarea name="body" id="body" cols="30" rows="10"></textarea>
+    <% if (user) {%>
+        <input type="radio" name="visibility" id="public" value="public" required>
+        <label for="public">Public</label>
+        <input type="radio" name="visibility" id="private" value="private">
+        <label for="private">Private</label>
+    <%} else {%>
+        <input type="radio" name="visibility" id="public" value="public" checked required>
+        <label for="public">Public</label>
+    <%}%>
+    <button>Send</button>
+  </form>
+  <%if (errors) {%>
+    <ul>
+      <%for (error of errors) {%>
+        <li><%=error.msg%></li>
+      <%}%>
+    </ul>
+  <%}%>
+</body>
+</html>
